@@ -1,0 +1,3 @@
+"""
+SentinelQwen - Multi-Chain Support
+"""

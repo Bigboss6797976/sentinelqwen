@@ -1,0 +1,66 @@
+# ═══════════════════════════════════════════════════════════════
+# Function Compute Deployment Configuration
+# Serverless deployment for SentinelQwen
+# ═══════════════════════════════════════════════════════════════
+
+edition: 3.0.0
+name: sentinelqwen
+access: default
+
+vars:
+  region: ap-southeast-1
+  service:
+    name: sentinelqwen-service
+    description: SentinelQwen - Smart Contract Security Auditor
+    internetAccess: true
+
+resources:
+  sentinelqwen-api:
+    component: fc3
+    props:
+      region: ${vars.region}
+      serviceName: ${vars.service.name}
+      functionName: sentinelqwen-api
+      description: API server for contract auditing
+      runtime: python3.11
+      handler: app.handler
+      code: ./
+      memorySize: 2048
+      timeout: 300
+      environmentVariables:
+        DASHSCOPE_API_KEY: ${env(DASHSCOPE_API_KEY)}
+        FLASK_SECRET_KEY: ${env(FLASK_SECRET_KEY)}
+        REDIS_URL: ${env(REDIS_URL)}
+      triggers:
+        - triggerName: http-trigger
+          triggerType: http
+          triggerConfig:
+            authType: anonymous
+            methods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+      customDomains:
+        - domainName: auto
+          protocol: HTTP
+          routeConfigs:
+            - path: /*
+              serviceName: ${vars.service.name}
+              functionName: sentinelqwen-api
+
+  sentinelqwen-bot:
+    component: fc3
+    props:
+      region: ${vars.region}
+      serviceName: ${vars.service.name}
+      functionName: sentinelqwen-bot
+      description: Telegram Bot worker
+      runtime: python3.11
+      handler: bot.handler
+      code: ./
+      memorySize: 1024
+      timeout: 60
+      environmentVariables:
+        BOT_TOKEN: ${env(BOT_TOKEN)}
+        DASHSCOPE_API_KEY: ${env(DASHSCOPE_API_KEY)}
