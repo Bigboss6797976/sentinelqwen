@@ -1,72 +1,48 @@
-# Python
+# ─── Secrets (NEVER commit these) ───
+.env
+*.key
+*.pem
+secrets/
+
+# ─── Python ───
 __pycache__/
 *.py[cod]
-*$py.class
 *.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
 *.egg
-
-# Virtual Environment
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
 venv/
-ENV/
 env/
 
-# IDE
+# ─── Memory / Data ───
+memory_db/
+*.db
+*.sqlite
+
+# ─── Reports (generated at runtime) ───
+audit_report_*.md
+audit_report_*.html
+
+# ─── IDE ───
 .vscode/
 .idea/
 *.swp
-*.swo
-*~
 
-# Environment
-.env
-.env.local
-.env.*.local
-
-# Database
-*.db
-*.sqlite
-*.sqlite3
-
-# Memory
-memory_db/
-chroma_db/
-
-# Logs
-*.log
-logs/
-
-# Reports
-audit_report_*.md
-audit_report_*.html
-audit_report_*.pdf
-
-# OS
+# ─── OS ───
 .DS_Store
 Thumbs.db
 
-# Docker
+# ─── Docker ───
 .dockerignore
 
-# Alibaba Cloud
-*.pem
-*.key
+# ─── Logs ───
+*.log
+logs/
 
-# Temporary
-tmp/
-temp/
-*.tmp
+# ─── Testing ───
+.pytest_cache/
+.coverage
+htmlcov/
